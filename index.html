@@ -390,6 +390,88 @@
     </div>
 
     <div class="container">
+        <h1 style="font-weight: bold; font-size: 1.25rem; margin-bottom: 2rem; color: #f0b060; border-left: 3px solid #f0b060; padding-left: 0.75rem;">
+            Season 1 Total Revenue Distribution
+        </h1>
+        
+        <div class="chart-container" style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4rem; align-items: center; margin: 2rem 0;">
+            <div class="chart-wrapper" style="position: relative; background: linear-gradient(145deg, rgba(50, 35, 25, 0.4), rgba(35, 25, 15, 0.6)); border-radius: 1.5rem; padding: 3rem; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(240, 176, 96, 0.1); aspect-ratio: 1; max-width: 500px; width: 100%;">
+                <div style="position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; background: linear-gradient(45deg, #f0b060, #dfc296, #f0b060); border-radius: 1.5rem; z-index: -1; opacity: 0.1;"></div>
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <canvas id="revenueChart"></canvas>
+                    <div id="centerText" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 10;">
+                        <div style="font-size: 2.2rem; font-weight: bold; color: #f0b060; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">556,251</div>
+                        <div style="font-size: 1rem; color: #dfc296; margin-top: 0.5rem; font-weight: 600;">TOTAL LORDS</div>
+                        <div style="font-size: 0.85rem; color: #dfc296; opacity: 0.9; margin-top: 0.25rem;">≈ $<span id="total-usd">Loading...</span> USD</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="legend-container" style="display: flex; flex-direction: column; gap: 1.25rem; padding: 1rem 0;">
+                <div class="legend-item" data-index="0" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: linear-gradient(135deg, rgba(240, 176, 96, 0.15), rgba(240, 176, 96, 0.05)); border: 1px solid rgba(240, 176, 96, 0.3); border-radius: 1rem; cursor: pointer; transition: all 0.3s ease; transform: translateX(0); box-shadow: 0 4px 12px rgba(240, 176, 96, 0.1);">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 24px; height: 24px; background: linear-gradient(135deg, #f0b060, #e6a555); border-radius: 50%; box-shadow: 0 4px 12px rgba(240, 176, 96, 0.4);"></div>
+                        <div>
+                            <div style="color: #f9fafb; font-weight: 600; font-size: 1rem;">Village Passes</div>
+                            <div style="color: #dfc296; font-size: 0.85rem; opacity: 0.9;">56.8% of total revenue</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="color: #f9fafb; font-weight: bold; font-size: 1.2rem;">316,000</div>
+                        <div style="color: #dfc296; font-size: 0.8rem; text-align: right; margin-top: 0.25rem;">LORDS</div>
+                        <div style="color: #f0b060; font-size: 0.75rem; text-align: right; opacity: 0.9; margin-top: 0.25rem;" data-lords="316000">≈ $<span class="usd-value">Loading...</span></div>
+                    </div>
+                </div>
+                
+                <div class="legend-item" data-index="1" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: linear-gradient(135deg, rgba(223, 194, 150, 0.15), rgba(223, 194, 150, 0.05)); border: 1px solid rgba(223, 194, 150, 0.3); border-radius: 1rem; cursor: pointer; transition: all 0.3s ease; transform: translateX(0); box-shadow: 0 4px 12px rgba(223, 194, 150, 0.1);">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 24px; height: 24px; background: linear-gradient(135deg, #dfc296, #d4b885); border-radius: 50%; box-shadow: 0 4px 12px rgba(223, 194, 150, 0.4);"></div>
+                        <div>
+                            <div style="color: #f9fafb; font-weight: 600; font-size: 1rem;">Donkey Network Fees</div>
+                            <div style="color: #dfc296; font-size: 0.85rem; opacity: 0.9;">29.2% of total revenue</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="color: #f9fafb; font-weight: bold; font-size: 1.2rem;">162,482</div>
+                        <div style="color: #dfc296; font-size: 0.8rem; text-align: right; margin-top: 0.25rem;">LORDS</div>
+                        <div style="color: #f0b060; font-size: 0.75rem; text-align: right; opacity: 0.9; margin-top: 0.25rem;" data-lords="162482">≈ $<span class="usd-value">Loading...</span></div>
+                    </div>
+                </div>
+                
+                <div class="legend-item" data-index="2" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: linear-gradient(135deg, rgba(192, 192, 192, 0.15), rgba(192, 192, 192, 0.05)); border: 1px solid rgba(192, 192, 192, 0.3); border-radius: 1rem; cursor: pointer; transition: all 0.3s ease; transform: translateX(0); box-shadow: 0 4px 12px rgba(192, 192, 192, 0.1);">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 24px; height: 24px; background: linear-gradient(135deg, #c0c0c0, #b5b5b5); border-radius: 50%; box-shadow: 0 4px 12px rgba(192, 192, 192, 0.4);"></div>
+                        <div>
+                            <div style="color: #f9fafb; font-weight: 600; font-size: 1rem;">Bridge Fees</div>
+                            <div style="color: #dfc296; font-size: 0.85rem; opacity: 0.9;">9.9% of total revenue</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="color: #f9fafb; font-weight: bold; font-size: 1.2rem;">55,282</div>
+                        <div style="color: #dfc296; font-size: 0.8rem; text-align: right; margin-top: 0.25rem;">LORDS</div>
+                        <div style="color: #f0b060; font-size: 0.75rem; text-align: right; opacity: 0.9; margin-top: 0.25rem;" data-lords="55282">≈ $<span class="usd-value">Loading...</span></div>
+                    </div>
+                </div>
+                
+                <div class="legend-item" data-index="3" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: linear-gradient(135deg, rgba(166, 124, 0, 0.15), rgba(166, 124, 0, 0.05)); border: 1px solid rgba(166, 124, 0, 0.3); border-radius: 1rem; cursor: pointer; transition: all 0.3s ease; transform: translateX(0); box-shadow: 0 4px 12px rgba(166, 124, 0, 0.1);">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 24px; height: 24px; background: linear-gradient(135deg, #a67c00, #9b7300); border-radius: 50%; box-shadow: 0 4px 12px rgba(166, 124, 0, 0.4);"></div>
+                        <div>
+                            <div style="color: #f9fafb; font-weight: 600; font-size: 1rem;">Marketplace Fees</div>
+                            <div style="color: #dfc296; font-size: 0.85rem; opacity: 0.9;">4.0% of total revenue</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="color: #f9fafb; font-weight: bold; font-size: 1.2rem;">22,487</div>
+                        <div style="color: #dfc296; font-size: 0.8rem; text-align: right; margin-top: 0.25rem;">LORDS</div>
+                        <div style="color: #f0b060; font-size: 0.75rem; text-align: right; opacity: 0.9; margin-top: 0.25rem;" data-lords="22487">≈ $<span class="usd-value">Loading...</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
         <h1>Fee Collection Summary</h1>
         <div class="table-wrapper">
             <table>
@@ -470,88 +552,6 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-        
-        <div style="margin-top: 3rem;">
-            <h2 style="font-weight: bold; font-size: 1.25rem; margin-bottom: 2rem; color: #f0b060; border-left: 3px solid #f0b060; padding-left: 0.75rem;">
-                Season 1 Total Revenue Distribution
-            </h2>
-            
-            <div class="chart-container" style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4rem; align-items: center; margin: 2rem 0;">
-                <div class="chart-wrapper" style="position: relative; background: linear-gradient(145deg, rgba(50, 35, 25, 0.4), rgba(35, 25, 15, 0.6)); border-radius: 1.5rem; padding: 3rem; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(240, 176, 96, 0.1); aspect-ratio: 1; max-width: 500px; width: 100%;">
-                    <div style="position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; background: linear-gradient(45deg, #f0b060, #dfc296, #f0b060); border-radius: 1.5rem; z-index: -1; opacity: 0.1;"></div>
-                    <div style="position: relative; width: 100%; height: 100%;">
-                        <canvas id="revenueChart"></canvas>
-                        <div id="centerText" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 10;">
-                            <div style="font-size: 2.2rem; font-weight: bold; color: #f0b060; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">556,251</div>
-                            <div style="font-size: 1rem; color: #dfc296; margin-top: 0.5rem; font-weight: 600;">TOTAL LORDS</div>
-                            <div style="font-size: 0.85rem; color: #dfc296; opacity: 0.9; margin-top: 0.25rem;">≈ $<span id="total-usd">Loading...</span> USD</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="legend-container" style="display: flex; flex-direction: column; gap: 1.25rem; padding: 1rem 0;">
-                    <div class="legend-item" data-index="0" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: linear-gradient(135deg, rgba(240, 176, 96, 0.15), rgba(240, 176, 96, 0.05)); border: 1px solid rgba(240, 176, 96, 0.3); border-radius: 1rem; cursor: pointer; transition: all 0.3s ease; transform: translateX(0); box-shadow: 0 4px 12px rgba(240, 176, 96, 0.1);">
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 24px; height: 24px; background: linear-gradient(135deg, #f0b060, #e6a555); border-radius: 50%; box-shadow: 0 4px 12px rgba(240, 176, 96, 0.4);"></div>
-                            <div>
-                                <div style="color: #f9fafb; font-weight: 600; font-size: 1rem;">Village Passes</div>
-                                <div style="color: #dfc296; font-size: 0.85rem; opacity: 0.9;">56.8% of total revenue</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="color: #f9fafb; font-weight: bold; font-size: 1.2rem;">316,000</div>
-                            <div style="color: #dfc296; font-size: 0.8rem; text-align: right; margin-top: 0.25rem;">LORDS</div>
-                            <div style="color: #f0b060; font-size: 0.75rem; text-align: right; opacity: 0.9; margin-top: 0.25rem;" data-lords="316000">≈ $<span class="usd-value">Loading...</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="legend-item" data-index="1" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: linear-gradient(135deg, rgba(223, 194, 150, 0.15), rgba(223, 194, 150, 0.05)); border: 1px solid rgba(223, 194, 150, 0.3); border-radius: 1rem; cursor: pointer; transition: all 0.3s ease; transform: translateX(0); box-shadow: 0 4px 12px rgba(223, 194, 150, 0.1);">
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 24px; height: 24px; background: linear-gradient(135deg, #dfc296, #d4b885); border-radius: 50%; box-shadow: 0 4px 12px rgba(223, 194, 150, 0.4);"></div>
-                            <div>
-                                <div style="color: #f9fafb; font-weight: 600; font-size: 1rem;">Donkey Network Fees</div>
-                                <div style="color: #dfc296; font-size: 0.85rem; opacity: 0.9;">29.2% of total revenue</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="color: #f9fafb; font-weight: bold; font-size: 1.2rem;">162,482</div>
-                            <div style="color: #dfc296; font-size: 0.8rem; text-align: right; margin-top: 0.25rem;">LORDS</div>
-                            <div style="color: #f0b060; font-size: 0.75rem; text-align: right; opacity: 0.9; margin-top: 0.25rem;" data-lords="162482">≈ $<span class="usd-value">Loading...</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="legend-item" data-index="2" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: linear-gradient(135deg, rgba(192, 192, 192, 0.15), rgba(192, 192, 192, 0.05)); border: 1px solid rgba(192, 192, 192, 0.3); border-radius: 1rem; cursor: pointer; transition: all 0.3s ease; transform: translateX(0); box-shadow: 0 4px 12px rgba(192, 192, 192, 0.1);">
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 24px; height: 24px; background: linear-gradient(135deg, #c0c0c0, #b5b5b5); border-radius: 50%; box-shadow: 0 4px 12px rgba(192, 192, 192, 0.4);"></div>
-                            <div>
-                                <div style="color: #f9fafb; font-weight: 600; font-size: 1rem;">Bridge Fees</div>
-                                <div style="color: #dfc296; font-size: 0.85rem; opacity: 0.9;">9.9% of total revenue</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="color: #f9fafb; font-weight: bold; font-size: 1.2rem;">55,282</div>
-                            <div style="color: #dfc296; font-size: 0.8rem; text-align: right; margin-top: 0.25rem;">LORDS</div>
-                            <div style="color: #f0b060; font-size: 0.75rem; text-align: right; opacity: 0.9; margin-top: 0.25rem;" data-lords="55282">≈ $<span class="usd-value">Loading...</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="legend-item" data-index="3" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: linear-gradient(135deg, rgba(166, 124, 0, 0.15), rgba(166, 124, 0, 0.05)); border: 1px solid rgba(166, 124, 0, 0.3); border-radius: 1rem; cursor: pointer; transition: all 0.3s ease; transform: translateX(0); box-shadow: 0 4px 12px rgba(166, 124, 0, 0.1);">
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 24px; height: 24px; background: linear-gradient(135deg, #a67c00, #9b7300); border-radius: 50%; box-shadow: 0 4px 12px rgba(166, 124, 0, 0.4);"></div>
-                            <div>
-                                <div style="color: #f9fafb; font-weight: 600; font-size: 1rem;">Marketplace Fees</div>
-                                <div style="color: #dfc296; font-size: 0.85rem; opacity: 0.9;">4.0% of total revenue</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="color: #f9fafb; font-weight: bold; font-size: 1.2rem;">22,487</div>
-                            <div style="color: #dfc296; font-size: 0.8rem; text-align: right; margin-top: 0.25rem;">LORDS</div>
-                            <div style="color: #f0b060; font-size: 0.75rem; text-align: right; opacity: 0.9; margin-top: 0.25rem;" data-lords="22487">≈ $<span class="usd-value">Loading...</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
