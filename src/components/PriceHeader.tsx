@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PriceHeaderProps } from '../types';
 
 const EternumLogo: React.FC = () => (
@@ -15,6 +15,19 @@ const PriceHeader: React.FC<PriceHeaderProps> = ({
   error, 
   totalLords 
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  // Hook to detect mobile screen size
+  useEffect(() => {
+    const checkIsMobile = (): void => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
+
   const formatPrice = (price: number): string => {
     if (loading) return 'Loading...';
     if (error) return 'Error';
@@ -28,12 +41,42 @@ const PriceHeader: React.FC<PriceHeaderProps> = ({
 
   const formatLastUpdated = (date: Date | null): string => {
     if (!date) return '';
-    return `Last updated: ${date.toLocaleString()}`;
+    
+    // Mobile-friendly time formatting
+    const options: Intl.DateTimeFormatOptions = isMobile 
+      ? { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          month: 'short',
+          day: 'numeric'
+        }
+      : { 
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        };
+    
+    return `Last updated: ${date.toLocaleString(undefined, options)}`;
   };
 
   const calculateTotalUSD = (): string => {
     if (loading || error) return 'Loading...';
-    return Math.round(totalLords * lordsPrice).toLocaleString();
+    const usdValue = Math.round(totalLords * lordsPrice);
+    return isMobile && usdValue >= 1000000 
+      ? `${(usdValue / 1000000).toFixed(1)}M`
+      : usdValue.toLocaleString();
+  };
+
+  // Responsive brand title
+  const getBrandTitle = (): string => {
+    return isMobile ? 'Eternum Revenue' : 'Eternum Revenue Dashboard';
+  };
+
+  // Responsive brand subtitle
+  const getBrandSubtitle = (): string => {
+    return isMobile ? 'Season 1 Analytics' : 'Season 1 LORDS Collection Analytics';
   };
 
   return (
@@ -43,17 +86,22 @@ const PriceHeader: React.FC<PriceHeaderProps> = ({
           <EternumLogo />
         </div>
         <div className="brand-info">
-          <div className="brand-title">Eternum Revenue Dashboard</div>
-          <div className="brand-subtitle">Season 1 LORDS Collection Analytics</div>
+          <div className="brand-title">{getBrandTitle()}</div>
+          <div className="brand-subtitle">{getBrandSubtitle()}</div>
         </div>
       </div>
       
       <div className="price-info">
         <div className="lords-logo">
-          <img src="/Lords.svg" width="64" height="64" alt="LORDS Token Logo" />
+          <img 
+            src="/Lords.svg" 
+            width={isMobile ? "48" : "64"} 
+            height={isMobile ? "48" : "64"} 
+            alt="LORDS Token Logo" 
+          />
         </div>
         <div className="price-details">
-          <div className="token-name">LORDS Token</div>
+          <div className="token-name">{isMobile ? 'LORDS' : 'LORDS Token'}</div>
           <div className="price-value">
             $<span className={loading ? 'loading' : error ? 'error' : ''}>{formatPrice(lordsPrice)}</span>
             {priceChange !== null && !loading && !error && (
@@ -68,6 +116,11 @@ const PriceHeader: React.FC<PriceHeaderProps> = ({
       <div className="price-meta">
         {lastUpdated && (
           <div className="last-updated">{formatLastUpdated(lastUpdated)}</div>
+        )}
+        {!isMobile && (
+          <div className="total-revenue">
+            Total Revenue: ≈ ${calculateTotalUSD()} USD
+          </div>
         )}
         {error && (
           <div className="error">{error}</div>

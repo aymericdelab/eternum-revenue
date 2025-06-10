@@ -5,6 +5,16 @@ body {
     background: linear-gradient(135deg, #2a1810 0%, #1a0e08 100%);
     min-height: 100vh;
     color: #f9fafb;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* Mobile-first responsive padding */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
 }
 
 .App {
@@ -91,6 +101,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .price-change {
@@ -98,6 +109,7 @@ body {
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .price-change.positive {
@@ -123,6 +135,7 @@ body {
     font-size: 0.8rem;
     color: #dfc296;
     opacity: 0.8;
+    white-space: nowrap;
 }
 
 .loading {
@@ -133,6 +146,13 @@ body {
 .error {
     color: #ef4444;
     font-size: 0.9rem;
+}
+
+.total-revenue {
+    font-size: 0.8rem;
+    color: #dfc296;
+    opacity: 0.8;
+    white-space: nowrap;
 }
 
 .container {
@@ -205,114 +225,105 @@ h1 {
 }
 
 .center-text .total-amount {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     font-weight: bold;
     color: #f0b060;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 0.25rem;
 }
 
 .center-text .total-label {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #dfc296;
-    margin-top: 0.5rem;
-    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
 .center-text .total-usd {
-    font-size: 0.85rem;
-    color: #dfc296;
-    opacity: 0.9;
-    margin-top: 0.25rem;
+    font-size: 1rem;
+    color: #f9fafb;
+    opacity: 0.8;
 }
 
 .legend-container {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-    padding: 1rem 0;
+    gap: 1rem;
 }
 
 .legend-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 1.25rem;
-    border: 1px solid rgba(240, 176, 96, 0.3);
-    border-radius: 1rem;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(135deg, rgba(50, 35, 25, 0.6), rgba(35, 25, 15, 0.4));
+    border: 1px solid rgba(240, 176, 96, 0.2);
     cursor: pointer;
     transition: all 0.3s ease;
-    transform: translateX(0);
-    box-shadow: 0 4px 12px rgba(240, 176, 96, 0.1);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 44px; /* Minimum touch target size for accessibility */
 }
 
 .legend-item:nth-child(1) {
-    background: linear-gradient(135deg, rgba(240, 176, 96, 0.15), rgba(240, 176, 96, 0.05));
-    border-color: rgba(240, 176, 96, 0.3);
+    border-left: 4px solid #f0b060;
 }
 
 .legend-item:nth-child(2) {
-    background: linear-gradient(135deg, rgba(223, 194, 150, 0.15), rgba(223, 194, 150, 0.05));
-    border-color: rgba(223, 194, 150, 0.3);
+    border-left: 4px solid #dfc296;
 }
 
 .legend-item:nth-child(3) {
-    background: linear-gradient(135deg, rgba(192, 192, 192, 0.15), rgba(192, 192, 192, 0.05));
-    border-color: rgba(192, 192, 192, 0.3);
+    border-left: 4px solid #c0c0c0;
 }
 
 .legend-item:nth-child(4) {
-    background: linear-gradient(135deg, rgba(166, 124, 0, 0.15), rgba(166, 124, 0, 0.05));
-    border-color: rgba(166, 124, 0, 0.3);
+    border-left: 4px solid #a67c00;
 }
 
 .legend-item:hover {
-    transform: translateX(8px);
-    box-shadow: 0 8px 25px rgba(240, 176, 96, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(240, 176, 96, 0.2);
 }
 
 .legend-item-left {
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex: 1;
 }
 
 .legend-color {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     flex-shrink: 0;
 }
 
 .legend-color.color-0 {
-    background: linear-gradient(135deg, #f0b060, #e6a555);
-    box-shadow: 0 4px 12px rgba(240, 176, 96, 0.4);
+    background-color: #f0b060;
 }
 
 .legend-color.color-1 {
-    background: linear-gradient(135deg, #dfc296, #d4b885);
-    box-shadow: 0 4px 12px rgba(223, 194, 150, 0.4);
+    background-color: #dfc296;
 }
 
 .legend-color.color-2 {
-    background: linear-gradient(135deg, #c0c0c0, #b5b5b5);
-    box-shadow: 0 4px 12px rgba(192, 192, 192, 0.4);
+    background-color: #c0c0c0;
 }
 
 .legend-color.color-3 {
-    background: linear-gradient(135deg, #a67c00, #9b7300);
-    box-shadow: 0 4px 12px rgba(166, 124, 0, 0.4);
+    background-color: #a67c00;
 }
 
 .legend-info .legend-title {
+    font-weight: bold;
     color: #f9fafb;
-    font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.95rem;
 }
 
 .legend-info .legend-subtitle {
     color: #dfc296;
-    font-size: 0.85rem;
-    opacity: 0.9;
+    font-size: 0.8rem;
 }
 
 .legend-item-right {
@@ -320,30 +331,31 @@ h1 {
 }
 
 .legend-amount {
-    color: #f9fafb;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    color: #f0b060;
 }
 
 .legend-lords {
-    color: #dfc296;
     font-size: 0.8rem;
-    text-align: right;
+    color: #dfc296;
     margin-top: 0.25rem;
+    font-weight: normal;
 }
 
 .legend-usd {
-    color: #f0b060;
-    font-size: 0.75rem;
-    text-align: right;
-    opacity: 0.9;
+    font-size: 0.8rem;
+    color: #f9fafb;
+    opacity: 0.7;
     margin-top: 0.25rem;
 }
 
 .table-wrapper {
     overflow-x: auto;
-    border-radius: 0.75rem;
-    background-color: rgba(40, 30, 20, 0.5);
+    border-radius: 0.5rem;
+    border: 1px solid #4d3923;
+    background-color: rgba(20, 15, 10, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid #4d3923;
     border-left: 1px solid #4d3923;
     margin-bottom: 1.5rem;
@@ -354,6 +366,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.85rem;
+    min-width: 800px; /* Ensures table doesn't get too cramped on mobile */
 }
 
 thead {
@@ -367,6 +380,7 @@ th {
     font-weight: bold;
     text-align: left;
     border-bottom: 1px solid #6d4923;
+    white-space: nowrap;
 }
 
 td {
@@ -454,11 +468,15 @@ tr:hover {
     white-space: pre-line;
 }
 
+/* Enhanced Mobile Responsive Styles */
+
+/* Tablet styles */
 @media (max-width: 1024px) {
     .price-header {
         grid-template-columns: 1fr;
         gap: 1.5rem;
         text-align: center;
+        padding: 1.25rem 1.5rem;
     }
     
     .header-left {
@@ -483,9 +501,20 @@ tr:hover {
     
     .chart-wrapper {
         max-width: 400px !important;
+        padding: 2rem !important;
+    }
+
+    .center-text .total-amount {
+        font-size: 2rem;
+    }
+
+    .legend-container {
+        max-width: 400px;
+        width: 100%;
     }
 }
 
+/* Mobile styles */
 @media (max-width: 768px) {
     .price-header {
         padding: 1rem;
@@ -499,6 +528,11 @@ tr:hover {
         flex-direction: column;
         text-align: center;
         gap: 0.75rem;
+    }
+
+    .eternum-logo {
+        width: 40px;
+        height: 40px;
     }
     
     .brand-title {
@@ -514,6 +548,11 @@ tr:hover {
         text-align: center;
         gap: 0.5rem;
         justify-self: center;
+    }
+
+    .lords-logo {
+        width: 48px;
+        height: 48px;
     }
     
     .price-meta {
@@ -535,12 +574,187 @@ tr:hover {
     h1 {
         font-size: 1.1rem;
     }
+
+    .chart-wrapper {
+        padding: 1.5rem !important;
+        max-width: 300px !important;
+    }
+
+    .center-text .total-amount {
+        font-size: 1.5rem;
+    }
+
+    .center-text .total-label {
+        font-size: 0.8rem;
+    }
+
+    .center-text .total-usd {
+        font-size: 0.9rem;
+    }
+
+    .legend-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.875rem;
+    }
+
+    .legend-item-left {
+        width: 100%;
+    }
+
+    .legend-item-right {
+        align-self: flex-end;
+        text-align: right;
+    }
     
     th, td {
         padding: 0.375rem 0.25rem;
+        font-size: 0.8rem;
     }
     
     .address {
         font-size: 0.65rem;
+        padding: 0.375rem;
+    }
+
+    .fee-category {
+        font-size: 0.85rem;
+    }
+
+    .fee-description {
+        font-size: 0.7rem;
+    }
+
+    .amount {
+        font-size: 0.9rem;
+    }
+
+    .lords-badge {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .source {
+        font-size: 0.8rem;
+    }
+
+    .source-breakdown {
+        font-size: 0.7rem;
+    }
+}
+
+/* Extra small mobile styles */
+@media (max-width: 480px) {
+    .price-header {
+        padding: 0.75rem;
+        margin: 0.25rem auto 1rem auto;
+    }
+
+    .price-value {
+        font-size: 1.25rem;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .price-change {
+        font-size: 0.8rem;
+    }
+
+    .container {
+        padding: 0.75rem;
+        margin: 0.25rem;
+    }
+
+    .chart-container {
+        gap: 1.5rem !important;
+    }
+
+    .chart-wrapper {
+        padding: 1rem !important;
+        max-width: 250px !important;
+    }
+
+    .center-text .total-amount {
+        font-size: 1.25rem;
+    }
+
+    .center-text .total-label {
+        font-size: 0.75rem;
+    }
+
+    .center-text .total-usd {
+        font-size: 0.8rem;
+    }
+
+    .legend-item {
+        padding: 0.75rem;
+    }
+
+    .legend-info .legend-title {
+        font-size: 0.9rem;
+    }
+
+    .legend-info .legend-subtitle {
+        font-size: 0.75rem;
+    }
+
+    .legend-amount {
+        font-size: 1rem;
+    }
+
+    table {
+        min-width: 600px;
+    }
+
+    th, td {
+        padding: 0.3rem 0.2rem;
+        font-size: 0.75rem;
+    }
+
+    .last-updated {
+        font-size: 0.7rem;
+    }
+}
+
+/* Landscape mobile orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+    .price-header {
+        grid-template-columns: 1fr auto 1fr;
+        gap: 1rem;
+    }
+    
+    .header-left {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    
+    .price-info {
+        flex-direction: row;
+        justify-self: center;
+    }
+    
+    .price-meta {
+        justify-self: end;
+        align-items: flex-end;
+        text-align: right;
+    }
+
+    .chart-container {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1.5rem !important;
+    }
+
+    .chart-wrapper {
+        max-width: 350px !important;
+    }
+
+    .legend-item {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .legend-item-right {
+        align-self: center;
     }
 } 

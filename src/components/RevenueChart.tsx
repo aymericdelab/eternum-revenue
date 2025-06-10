@@ -15,6 +15,21 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const RevenueChart: React.FC<RevenueChartProps> = ({ revenueData, lordsPrice, totalLords }) => {
   const chartRef = useRef<ChartJS<'doughnut'> | null>(null);
   const [hoveredSegment, setHoveredSegment] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isSmallMobile, setIsSmallMobile] = useState<boolean>(false);
+
+  // Hook to detect screen size
+  useEffect(() => {
+    const checkScreenSize = (): void => {
+      const width = window.innerWidth;
+      setIsMobile(width <= 768);
+      setIsSmallMobile(width <= 480);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   const colors: ColorScheme[] = [
     {
@@ -45,8 +60,8 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ revenueData, lordsPrice, to
       data: revenueData.map(item => item.amount),
       backgroundColor: colors.map(color => color.background),
       borderColor: colors.map(color => color.border),
-      borderWidth: 3,
-      hoverBorderWidth: 5,
+      borderWidth: isMobile ? 2 : 3,
+      hoverBorderWidth: isMobile ? 4 : 5,
       hoverBorderColor: '#ffffff',
       hoverBackgroundColor: colors.map(color => color.hover)
     }]
@@ -55,7 +70,7 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ revenueData, lordsPrice, to
   const options: ChartOptions<'doughnut'> = {
     responsive: true,
     maintainAspectRatio: true,
-    cutout: '60%',
+    cutout: isMobile ? '55%' : '60%',
     plugins: {
       legend: {
         display: false
@@ -69,12 +84,13 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ revenueData, lordsPrice, to
         cornerRadius: 12,
         displayColors: false,
         titleFont: {
-          size: 16,
+          size: isMobile ? 14 : 16,
           weight: 'bold'
         },
         bodyFont: {
-          size: 14
+          size: isMobile ? 12 : 14
         },
+        padding: isMobile ? 8 : 12,
         callbacks: {
           title: function(context: TooltipItem<'doughnut'>[]) {
             return context[0].label || '';
@@ -84,22 +100,32 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ revenueData, lordsPrice, to
             const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
             const percentage = ((value / total) * 100).toFixed(1);
             const usdValue = Math.round(value * lordsPrice);
+            
+            // Mobile-friendly formatting
+            const lordsFormatted = isMobile && value >= 1000 
+              ? `${(value / 1000).toFixed(0)}K LORDS`
+              : `${value.toLocaleString()} LORDS`;
+            
+            const usdFormatted = isMobile && usdValue >= 1000000
+              ? `≈ $${(usdValue / 1000000).toFixed(1)}M USD`
+              : `≈ $${usdValue.toLocaleString()} USD`;
+            
             return [
-              `${value.toLocaleString()} LORDS`,
+              lordsFormatted,
               `${percentage}% of total revenue`,
-              `≈ $${usdValue.toLocaleString()} USD`
+              usdFormatted
             ];
           }
         }
       }
     },
     layout: {
-      padding: 20
+      padding: isMobile ? 10 : 20
     },
     animation: {
       animateRotate: true,
       animateScale: true,
-      duration: 2000,
+      duration: isMobile ? 1500 : 2000,
       easing: 'easeOutBounce'
     },
     onHover: (event, activeElements) => {
@@ -112,10 +138,18 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ revenueData, lordsPrice, to
       } else {
         setHoveredSegment(null);
       }
+    },
+    // Enhanced touch/mobile interaction
+    interaction: {
+      intersect: !isMobile, // Allow easier touch interaction on mobile
+      mode: isMobile ? 'nearest' : 'index'
     }
   };
 
   const handleLegendHover = (index: number, isHovering: boolean): void => {
+    // Disable hover effects on mobile for better touch experience
+    if (isMobile) return;
+    
     const chart = chartRef.current;
     if (!chart) return;
 
@@ -129,8 +163,8 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ revenueData, lordsPrice, to
           segment.options.backgroundColor = segment.options.backgroundColor?.toString().replace('0.9', '0.3');
         }
       } else {
-        segment.options.borderWidth = 3;
-        segment.options.hoverBorderWidth = 5;
+        segment.options.borderWidth = isMobile ? 2 : 3;
+        segment.options.hoverBorderWidth = isMobile ? 4 : 5;
         segment.options.backgroundColor = colors[i].background;
       }
     });
@@ -145,24 +179,56 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ revenueData, lordsPrice, to
     const segment = meta.data[index] as any;
     segment.hidden = !segment.hidden;
     chart.update();
+    
+    // Provide haptic feedback on mobile if available
+    if (isMobile && navigator.vibrate) {
+      navigator.vibrate(50);
+    }
   };
 
   const formatUSD = (lordsAmount: number): string => {
-    return Math.round(lordsAmount * lordsPrice).toLocaleString();
+    const usdValue = Math.round(lordsAmount * lordsPrice);
+    return isMobile && usdValue >= 1000000
+      ? `${(usdValue / 1000000).toFixed(1)}M`
+      : usdValue.toLocaleString();
+  };
+
+  const formatLords = (amount: number): string => {
+    return isSmallMobile && amount >= 1000
+      ? `${(amount / 1000).toFixed(0)}K`
+      : amount.toLocaleString();
+  };
+
+  const getTotalDisplayValue = (): string => {
+    return isSmallMobile && totalLords >= 1000
+      ? `${(totalLords / 1000).toFixed(0)}K`
+      : totalLords.toLocaleString();
+  };
+
+  const getTotalLabel = (): string => {
+    return isSmallMobile ? 'TOTAL' : 'TOTAL LORDS';
+  };
+
+  const getTotalUSDDisplay = (): string => {
+    const usdValue = Math.round(totalLords * lordsPrice);
+    if (isSmallMobile && usdValue >= 1000000) {
+      return `≈ $${(usdValue / 1000000).toFixed(1)}M`;
+    }
+    return `≈ $${usdValue.toLocaleString()} USD`;
   };
 
   return (
     <div className="container">
-      <h1>Season 1 Total Revenue Distribution</h1>
+      <h1>{isMobile ? 'Season 1 Revenue' : 'Season 1 Total Revenue Distribution'}</h1>
       
       <div className="chart-container">
         <div className="chart-wrapper">
           <div className="chart-canvas-wrapper">
             <Doughnut ref={chartRef} data={data} options={options} />
             <div className="center-text">
-              <div className="total-amount">{totalLords.toLocaleString()}</div>
-              <div className="total-label">TOTAL LORDS</div>
-              <div className="total-usd">≈ ${Math.round(totalLords * lordsPrice).toLocaleString()} USD</div>
+              <div className="total-amount">{getTotalDisplayValue()}</div>
+              <div className="total-label">{getTotalLabel()}</div>
+              <div className="total-usd">{getTotalUSDDisplay()}</div>
             </div>
           </div>
         </div>
@@ -175,17 +241,31 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ revenueData, lordsPrice, to
               onMouseEnter={() => handleLegendHover(index, true)}
               onMouseLeave={() => handleLegendHover(index, false)}
               onClick={() => handleLegendClick(index)}
+              onTouchStart={() => handleLegendClick(index)} // Better touch support
+              role="button"
+              tabIndex={0}
+              aria-label={`${item.category}: ${item.amount.toLocaleString()} LORDS`}
             >
               <div className="legend-item-left">
                 <div className={`legend-color color-${index}`}></div>
                 <div className="legend-info">
-                  <div className="legend-title">{item.category}</div>
-                  <div className="legend-subtitle">{item.percentage}% of total revenue</div>
+                  <div className="legend-title">
+                    {isMobile && item.category.length > 15 
+                      ? item.category.split(' ').slice(0, 2).join(' ')
+                      : item.category
+                    }
+                  </div>
+                  <div className="legend-subtitle">
+                    {isMobile 
+                      ? `${item.percentage}%`
+                      : `${item.percentage}% of total revenue`
+                    }
+                  </div>
                 </div>
               </div>
               <div className="legend-item-right">
-                <div className="legend-amount">{item.amount.toLocaleString()}</div>
-                <div className="legend-lords">LORDS</div>
+                <div className="legend-amount">{formatLords(item.amount)}</div>
+                <div className="legend-lords">{isSmallMobile ? '' : 'LORDS'}</div>
                 <div className="legend-usd">≈ ${formatUSD(item.amount)}</div>
               </div>
             </div>
